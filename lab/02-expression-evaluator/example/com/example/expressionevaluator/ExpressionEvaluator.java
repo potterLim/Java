@@ -1,6 +1,6 @@
 package com.example.expressionevaluator;
 
-public final class ExpressionEvaluator {
+public class ExpressionEvaluator {
     private ExpressionEvaluator() {
     }
 
@@ -90,11 +90,9 @@ public final class ExpressionEvaluator {
                     return null;
                 }
 
-                int operandValue;
+                int operandValue = (int) operandAbsValue;
                 if (sign == -1) {
                     operandValue = (int) -operandAbsValue;
-                } else {
-                    operandValue = (int) operandAbsValue;
                 }
 
                 operands[operandCount] = operandValue;
@@ -142,11 +140,8 @@ public final class ExpressionEvaluator {
                     return null;
                 }
 
-                int calculationResult;
-
-                if (operator == '*') {
-                    calculationResult = leftOperand * rightOperand;
-                } else {
+                int calculationResult = leftOperand * rightOperand;
+                if (operator == '/') {
                     calculationResult = leftOperand / rightOperand;
                 }
 

@@ -1,6 +1,6 @@
 package com.example.expressionevaluator;
 
-public final class Main {
+public class Main {
     private static int sPassedCount;
     private static int sFailedCount;
     private static String sFailureMessage;
@@ -17,32 +17,32 @@ public final class Main {
 
     private static void verifyValidExpressions() {
         verifyScenario(
-                "valid expressions calculate expected results",
-                checkEquals("single number", "7", ExpressionEvaluator.evaluateOrNull("7"))
-                        && checkEquals("negative number", "-7", ExpressionEvaluator.evaluateOrNull("-7"))
-                        && checkEquals("minimum int operand", "-2147483648", ExpressionEvaluator.evaluateOrNull("-2147483648"))
-                        && checkEquals("minimum int operand in expression", "-2147483648", ExpressionEvaluator.evaluateOrNull("-2147483648 + 0"))
-                        && checkEquals("addition with whitespace", "30", ExpressionEvaluator.evaluateOrNull("  10  +   20 "))
-                        && checkEquals("operator precedence", "14", ExpressionEvaluator.evaluateOrNull("2 + 3 * 4"))
-                        && checkEquals("left-to-right operators", "12", ExpressionEvaluator.evaluateOrNull("20 / 3 * 2"))
-                        && checkEquals("unary minus after operator", "13", ExpressionEvaluator.evaluateOrNull("10 - -3"))
-                        && checkEquals("mixed operators", "21", ExpressionEvaluator.evaluateOrNull("2 + 3 * 7 - 2"))
+                "올바른 산술식 계산",
+                checkEquals("숫자 하나만 있는 식", "7", ExpressionEvaluator.evaluateOrNull("7"))
+                        && checkEquals("음수 하나만 있는 식", "-7", ExpressionEvaluator.evaluateOrNull("-7"))
+                        && checkEquals("int 최솟값", "-2147483648", ExpressionEvaluator.evaluateOrNull("-2147483648"))
+                        && checkEquals("식 안의 int 최솟값", "-2147483648", ExpressionEvaluator.evaluateOrNull("-2147483648 + 0"))
+                        && checkEquals("공백이 포함된 덧셈", "30", ExpressionEvaluator.evaluateOrNull("  10  +   20 "))
+                        && checkEquals("연산자 우선순위", "14", ExpressionEvaluator.evaluateOrNull("2 + 3 * 4"))
+                        && checkEquals("같은 우선순위의 왼쪽부터 계산", "12", ExpressionEvaluator.evaluateOrNull("20 / 3 * 2"))
+                        && checkEquals("연산자 뒤의 음수", "13", ExpressionEvaluator.evaluateOrNull("10 - -3"))
+                        && checkEquals("여러 연산자가 섞인 식", "21", ExpressionEvaluator.evaluateOrNull("2 + 3 * 7 - 2"))
         );
     }
 
     private static void verifyInvalidExpressions() {
         verifyScenario(
-                "invalid expressions return null",
-                checkNull("null expression", ExpressionEvaluator.evaluateOrNull(null))
-                        && checkNull("empty expression", ExpressionEvaluator.evaluateOrNull(""))
-                        && checkNull("blank expression", ExpressionEvaluator.evaluateOrNull("   "))
-                        && checkNull("unary plus", ExpressionEvaluator.evaluateOrNull("+7"))
-                        && checkNull("space after unary minus", ExpressionEvaluator.evaluateOrNull("- 7"))
-                        && checkNull("trailing operator", ExpressionEvaluator.evaluateOrNull("1 +"))
-                        && checkNull("space inside number", ExpressionEvaluator.evaluateOrNull("1 2 + 3"))
-                        && checkNull("repeated operator", ExpressionEvaluator.evaluateOrNull("2 * * 3"))
-                        && checkNull("leading zero", ExpressionEvaluator.evaluateOrNull("01 + 2"))
-                        && checkNull("division by zero", ExpressionEvaluator.evaluateOrNull("4 / 0"))
+                "잘못된 산술식은 null 반환",
+                checkNull("식이 null인 경우", ExpressionEvaluator.evaluateOrNull(null))
+                        && checkNull("빈 문자열", ExpressionEvaluator.evaluateOrNull(""))
+                        && checkNull("공백만 있는 문자열", ExpressionEvaluator.evaluateOrNull("   "))
+                        && checkNull("단항 양수 부호", ExpressionEvaluator.evaluateOrNull("+7"))
+                        && checkNull("음수 부호 뒤의 공백", ExpressionEvaluator.evaluateOrNull("- 7"))
+                        && checkNull("마지막에 남은 연산자", ExpressionEvaluator.evaluateOrNull("1 +"))
+                        && checkNull("숫자 사이의 공백", ExpressionEvaluator.evaluateOrNull("1 2 + 3"))
+                        && checkNull("연속된 연산자", ExpressionEvaluator.evaluateOrNull("2 * * 3"))
+                        && checkNull("선행 0이 있는 숫자", ExpressionEvaluator.evaluateOrNull("01 + 2"))
+                        && checkNull("0으로 나누는 식", ExpressionEvaluator.evaluateOrNull("4 / 0"))
         );
     }
 
@@ -51,7 +51,7 @@ public final class Main {
             return true;
         }
 
-        sFailureMessage = name + ": expected=" + expected + ", actual=" + actual;
+        sFailureMessage = name + ": 기대=" + expected + ", 실제=" + actual;
         return false;
     }
 
@@ -60,7 +60,7 @@ public final class Main {
             return true;
         }
 
-        sFailureMessage = name + ": expected=null, actual=" + actual;
+        sFailureMessage = name + ": 기대=null, 실제=" + actual;
         return false;
     }
 
@@ -76,17 +76,17 @@ public final class Main {
 
     private static void pass(String name) {
         ++sPassedCount;
-        System.out.println("[PASS] " + name);
+        System.out.println("[통과] " + name);
     }
 
     private static void fail(String name, String message) {
         ++sFailedCount;
-        System.out.println("[FAIL] " + name + " (" + message + ")");
+        System.out.println("[실패] " + name + " (" + message + ")");
     }
 
     private static void printSummary() {
         System.out.println();
-        System.out.println("Passed: " + sPassedCount);
-        System.out.println("Failed: " + sFailedCount);
+        System.out.println("통과: " + sPassedCount);
+        System.out.println("실패: " + sFailedCount);
     }
 }
