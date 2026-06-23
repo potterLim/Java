@@ -13,16 +13,17 @@
 
 ## 자료 구성
 
-각 장별 학습 노트는 [`notes/`](./notes) 디렉터리에, 예시 코드는 [`example-code/`](./example-code) 디렉터리에 정리되어 있습니다.
+각 장별 학습 노트는 [`notes/`](./notes) 디렉터리에, 예시 코드는 [`example-code/`](./example-code) 디렉터리에 정리되어 있습니다.  
+강의 슬라이드에 등장하는 주요 코드 블록의 전체 형태는 [`notes/slide-code/`](./notes/slide-code)에서 함께 확인할 수 있습니다.
 
-| 번호 | 주제                          | 노트                 | 예시 코드    |
-| :--: | :---------------------------- | :------------------: | :----------: |
-| 01   | 언어 분류와 설계 관점         | [강의 노트][note-01] |      -       |
-| 02   | 값과 참조                     | [강의 노트][note-02] | [example-02] |
-| 03   | 표현력과 메서드 설계          | [강의 노트][note-03] | [example-03] |
-| 04   | 컬렉션을 활용한 데이터 관리   | [강의 노트][note-04] | [example-04] |
-| 05   | 문법과 언어 사용성            | [강의 노트][note-05] | [example-05] |
-| 06   | 사용자 정의 자료형            | [강의 노트][note-06] | [example-06] |
+| 번호 | 주제                          | 노트                 | 슬라이드 코드   | 예시 코드    |
+| :--: | :---------------------------- | :------------------: | :-------------: | :----------: |
+| 01   | 언어 분류와 설계 관점         | [강의 노트][note-01] |        -        |      -       |
+| 02   | 값과 참조                     | [강의 노트][note-02] | [slide-code-02] | [example-02] |
+| 03   | 표현력과 메서드 설계          | [강의 노트][note-03] | [slide-code-03] | [example-03] |
+| 04   | 컬렉션을 활용한 데이터 관리   | [강의 노트][note-04] | [slide-code-04] | [example-04] |
+| 05   | 문법과 언어 사용성            | [강의 노트][note-05] | [slide-code-05] | [example-05] |
+| 06   | 사용자 정의 자료형            | [강의 노트][note-06] | [slide-code-06] | [example-06] |
 
 ## 실습
 
@@ -42,8 +43,15 @@
 다음 순서로 학습하는 것을 권장합니다.
 
 1. `notes/`의 학습 슬라이드를 통해 개념을 이해한다.
-2. `example-code/`의 예제를 통해 해당 개념이 코드로 어떻게 나타나는지 확인한다.
-3. `lab/`의 실습을 통해 직접 코드를 작성하며 적용해본다.
+2. `notes/slide-code/`에서 슬라이드에 등장한 코드의 전체 형태를 확인한다.
+3. `example-code/`의 예제를 통해 각 장의 개념이 하나의 흐름으로 어떻게 연결되는지 확인한다.
+4. `lab/`의 실습을 통해 직접 코드를 작성하며 적용해본다.
+
+`notes/slide-code/`는 슬라이드 코드 블록의 보조 자료입니다.  
+슬라이드에서는 지면 제약 때문에 `import`, `class`, `main` 메서드, 보조 타입 등이 생략될 수 있습니다.  
+필요한 경우 해당 코드를 직접 실행하거나 전체 형태로 살펴볼 수 있도록 정리합니다.
+
+`example-code/`는 슬라이드별 코드 조각이 아니라 각 장의 핵심 개념을 하나의 흐름으로 묶어 보여주는 통합 예제입니다.
 
 예시 코드와 실습 코드는 [코딩 표준](./java-coding-standard.md)을 기준으로 작성되어 있습니다.  
 실습을 진행할 때는 단순히 동작하는 코드를 만드는 데서 그치지 않고 일관된 이름과 명확한 흐름, 읽기 쉬운 구조를 갖춘 코드를 작성하는 훈련을 함께 합니다.
@@ -62,7 +70,7 @@
 
 이 저장소를 통해 공부하시다가 내용, 실습, 설명 등에 대해 궁금한 점이 생기면 언제든지 potterLim0808@gmail.com으로 문의 주시면 성실히 답변드리겠습니다.
 
-> 최종 수정일: 2026. 06. 14.
+> 최종 수정일: 2026. 06. 23.
 
 [note-01]: ./notes/01-language-classification-and-design-perspectives.pdf
 [note-02]: ./notes/02-values-and-references.pdf
@@ -70,6 +78,12 @@
 [note-04]: ./notes/04-managing-data-with-collections.pdf
 [note-05]: ./notes/05-syntax-and-language-ergonomics.pdf
 [note-06]: ./notes/06-user-defined-types.pdf
+
+[slide-code-02]: ./notes/slide-code/02-values-and-references/
+[slide-code-03]: ./notes/slide-code/03-expressiveness-and-method-design/
+[slide-code-04]: ./notes/slide-code/04-managing-data-with-collections/
+[slide-code-05]: ./notes/slide-code/05-syntax-and-language-ergonomics/
+[slide-code-06]: ./notes/slide-code/06-user-defined-types/
 
 [example-02]: ./example-code/src/main/java/com/example/valuesandreferences/
 [example-03]: ./example-code/src/main/java/com/example/expressivenessandmethoddesign/
