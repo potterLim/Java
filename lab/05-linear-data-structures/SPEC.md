@@ -33,8 +33,8 @@
     - 구현에 필요하다면 추가적인 `private` 도움 메서드를 정의하는 것은 허용된다.
     - 구현에 필요하다면 추가적인 `private` 멤버 변수를 정의하는 것은 허용된다.
 
-- 실습 명세에 명시되지 않은 동작은 제공된 검증용 `Main` 코드를 기준으로 추론하여 구현한다.
-    - 검증용 `Main` 코드로도 추론이 어려운 경우 명세의 규칙을 위반하지 않는 범위 내에서 합리적으로 판단하여 구현한다.
+- 실습 명세에 명시되지 않은 동작은 제공된 검증용 `Main` 클래스의 테스트 사례를 기준으로 추론하여 구현한다.
+    - 검증용 `Main` 클래스의 테스트 사례로도 추론이 어려운 경우 명세의 규칙을 위반하지 않는 범위 내에서 합리적으로 판단하여 구현한다.
 
 ## 1. 프로젝트를 준비한다
 
@@ -42,7 +42,7 @@
 2. `05-linear-data-structures` 디렉터리로 이동한다.
 3. `src/main/java` 디렉터리를 생성한다.
 4. `src/main/java` 아래에 `com.example.lineardatastructures` 패키지를 생성한다.
-5. 제공된 검증용 [`Main.java`](./src/main/java/com/example/lineardatastructures/Main.java)와 같은 내용의 파일을 본인의 `java-labs` 프로젝트에 아래 경로로 생성한다.
+5. 제공된 검증용 [`Main.java`](./src/main/java/com/example/lineardatastructures/Main.java) 파일과 같은 내용의 파일을 본인의 `java-labs` 프로젝트에 아래 경로로 생성한다.
 
 ```text
 java-labs/
@@ -66,7 +66,7 @@ java-labs/
 ```java
 package com.example.lineardatastructures;
 
-public final class IntValue {
+public class IntValue {
     private int mValue;
 
     public int getValue() {
@@ -118,11 +118,10 @@ public final class IntValue {
 ```java
 List list = new List(3); // 내부 저장 공간 크기: 3,  상태: []
 
-boolean result;
-result = list.add(5);    // true,  상태: [5]
-result = list.add(7);    // true,  상태: [5, 7]
-result = list.add(9);    // true,  상태: [5, 7, 9]
-result = list.add(11);   // true,  내부 저장 공간 크기: 6,  상태: [5, 7, 9, 11]
+boolean isAdded = list.add(5); // true,  상태: [5]
+isAdded = list.add(7);         // true,  상태: [5, 7]
+isAdded = list.add(9);         // true,  상태: [5, 7, 9]
+isAdded = list.add(11);        // true,  내부 저장 공간 크기: 6,  상태: [5, 7, 9, 11]
 ```
 
 #### 2.2.2. `insert` 메서드를 구현한다
@@ -140,12 +139,11 @@ result = list.add(11);   // true,  내부 저장 공간 크기: 6,  상태: [5, 
 ```java
 List list = new List(3);    // 내부 저장 공간 크기: 3, 상태: []
 
-boolean result;
 list.add(5);                // 상태: [5]
 list.add(7);                // 상태: [5, 7]
 
-result = list.insert(2, 8); // true,   상태: [5, 7, 8]
-result = list.insert(4, 9); // false,  상태: [5, 7, 8]
+boolean isInserted = list.insert(2, 8); // true,   상태: [5, 7, 8]
+isInserted = list.insert(4, 9);         // false,  상태: [5, 7, 8]
 ```
 
 #### 2.2.3. `removeAt` 메서드를 구현한다
@@ -161,13 +159,12 @@ result = list.insert(4, 9); // false,  상태: [5, 7, 8]
 ```java
 List list = new List(5);    // 내부 저장 공간 크기: 5,  상태: []
 
-boolean result;
 list.add(5);                // 상태: [5]
 list.add(6);                // 상태: [5, 6]
 list.add(7);                // 상태: [5, 6, 7]
 
-result = list.removeAt(1);  // true,   상태: [5, 7]
-result = list.removeAt(-1); // false,  상태: [5, 7]
+boolean isRemoved = list.removeAt(1); // true,   상태: [5, 7]
+isRemoved = list.removeAt(-1);        // false,  상태: [5, 7]
 ```
 
 #### 2.2.4. `get` 메서드를 구현한다
@@ -187,14 +184,13 @@ result = list.removeAt(-1); // false,  상태: [5, 7]
 ```java
 List list = new List(3);         // 내부 저장 공간 크기: 3,  상태: []
 
-boolean result;
 IntValue outValue = new IntValue();
 
 list.add(5);                     // 상태: [5]
 list.add(7);                     // 상태: [5, 7]
 
-result = list.get(1, outValue);  // true,  outValue.getValue() == 7
-result = list.get(2, outValue);  // false
+boolean isFound = list.get(1, outValue); // true,  outValue.getValue() == 7
+isFound = list.get(2, outValue);         // false
 ```
 
 #### 2.2.5. `set` 메서드를 구현한다
@@ -212,12 +208,11 @@ result = list.get(2, outValue);  // false
 ```java
 List list = new List(3); // 내부 저장 공간 크기: 3,  상태: []
 
-boolean result;
 list.add(5);             // 상태: [5]
 list.add(7);             // 상태: [5, 7]
 
-result = list.set(1, 9); // true,  상태: [5, 9]
-result = list.set(3, 4); // false, 상태: [5, 9]
+boolean isUpdated = list.set(1, 9); // true,  상태: [5, 9]
+isUpdated = list.set(3, 4);         // false, 상태: [5, 9]
 ```
 
 #### 2.2.6. `getCount` 메서드를 구현한다
@@ -285,14 +280,13 @@ int capacity = list.getCapacity(); // 5
 ```java
 List list = new List(); // 내부 저장 공간 크기: 0
 
-boolean empty;
-empty = list.isEmpty(); // true
+boolean isEmpty = list.isEmpty(); // true
 
 list.add(5);            // 내부 저장 공간 크기: 4,  상태: [5]
-empty = list.isEmpty(); // false
+isEmpty = list.isEmpty();         // false
 
 list.clear();           // 상태: []
-empty = list.isEmpty(); // true
+isEmpty = list.isEmpty();         // true
 ```
 
 ### 2.3. `Stack` 클래스를 구현한다
@@ -330,11 +324,10 @@ empty = list.isEmpty(); // true
 ```java
 Stack stack = new Stack(3); // 내부 저장 공간 크기: 3, 상태: []
 
-boolean result;
-result = stack.push(5);     // true,  상태: [5] <- top
-result = stack.push(7);     // true,  상태: [5, 7] <- top
-result = stack.push(9);     // true,  상태: [5, 7, 9] <- top
-result = stack.push(11);    // true,  내부 저장 공간 크기: 6,  상태: [5, 7, 9, 11] <- top
+boolean isPushed = stack.push(5); // true,  상태: [5] <- top
+isPushed = stack.push(7);         // true,  상태: [5, 7] <- top
+isPushed = stack.push(9);         // true,  상태: [5, 7, 9] <- top
+isPushed = stack.push(11);        // true,  내부 저장 공간 크기: 6,  상태: [5, 7, 9, 11] <- top
 ```
 
 #### 2.3.2. `pop` 메서드를 구현한다
@@ -352,15 +345,14 @@ result = stack.push(11);    // true,  내부 저장 공간 크기: 6,  상태: [
 ```java
 Stack stack = new Stack(3);         // 내부 저장 공간 크기: 3,  상태: []
 
-boolean result;
 IntValue outValue = new IntValue();
 
 stack.push(5);                      // 상태: [5] <- top
 stack.push(7);                      // 상태: [5, 7] <- top
 
-result = stack.pop(outValue);       // true,  outValue.getValue() == 7,  상태: [5] <- top
-result = stack.pop(outValue);       // true,  outValue.getValue() == 5,  상태: []
-result = stack.pop(outValue);       // false, 상태: []
+boolean isPopped = stack.pop(outValue); // true,  outValue.getValue() == 7,  상태: [5] <- top
+isPopped = stack.pop(outValue);         // true,  outValue.getValue() == 5,  상태: []
+isPopped = stack.pop(outValue);         // false, 상태: []
 ```
 
 #### 2.3.3. `peek` 메서드를 구현한다
@@ -378,15 +370,14 @@ result = stack.pop(outValue);       // false, 상태: []
 ```java
 Stack stack = new Stack(3);         // 내부 저장 공간 크기: 3,  상태: []
 
-boolean result;
 IntValue outValue = new IntValue();
 
 stack.push(5);                      // 상태: [5] <- top
 stack.push(7);                      // 상태: [5, 7] <- top
 
-result = stack.peek(outValue);      // true,  outValue.getValue() == 7,  상태: [5, 7] <- top
-result = stack.pop(outValue);       // true,  outValue.getValue() == 7,  상태: [5] <- top
-result = stack.peek(outValue);      // true,  outValue.getValue() == 5,  상태: [5] <- top
+boolean hasTopValue = stack.peek(outValue); // true,  outValue.getValue() == 7,  상태: [5, 7] <- top
+boolean isPopped = stack.pop(outValue);     // true,  outValue.getValue() == 7,  상태: [5] <- top
+hasTopValue = stack.peek(outValue);         // true,  outValue.getValue() == 5,  상태: [5] <- top
 ```
 
 #### 2.3.4. `getCount` 메서드를 구현한다
@@ -454,14 +445,13 @@ int capacity = stack.getCapacity(); // 5
 ```java
 Stack stack = new Stack(); // 내부 저장 공간 크기: 0
 
-boolean empty;
-empty = stack.isEmpty();   // true
+boolean isEmpty = stack.isEmpty(); // true
 
 stack.push(5);             // 내부 저장 공간 크기: 4,  상태: [5] <- top
-empty = stack.isEmpty();   // false
+isEmpty = stack.isEmpty();         // false
 
 stack.clear();             // 상태: []
-empty = stack.isEmpty();   // true
+isEmpty = stack.isEmpty();         // true
 ```
 
 ### 2.4. `Queue` 클래스를 구현한다
@@ -503,13 +493,11 @@ empty = stack.isEmpty();   // true
 ```java
 Queue queue = new Queue(3); // 내부 저장 공간 크기: 3, 상태: [_, _, _]
 
-boolean result;
+boolean isEnqueued = queue.enqueue(5); // true,  상태: [5, _, _],  (front=0, rear=1)
+isEnqueued = queue.enqueue(7);         // true,  상태: [5, 7, _],  (front=0, rear=2)
+isEnqueued = queue.enqueue(9);         // true,  상태: [5, 7, 9],  (front=0, rear=0)
 
-result = queue.enqueue(5);  // true,  상태: [5, _, _],  (front=0, rear=1)
-result = queue.enqueue(7);  // true,  상태: [5, 7, _],  (front=0, rear=2)
-result = queue.enqueue(9);  // true,  상태: [5, 7, 9],  (front=0, rear=0)
-
-result = queue.enqueue(11); // true,  내부 저장 공간 크기: 6,  상태: [5, 7, 9, 11, _, _],  (front=0, rear=4)
+isEnqueued = queue.enqueue(11);        // true,  내부 저장 공간 크기: 6,  상태: [5, 7, 9, 11, _, _],  (front=0, rear=4)
 ```
 
 #### 2.4.2. `dequeue` 메서드를 구현한다
@@ -527,15 +515,14 @@ result = queue.enqueue(11); // true,  내부 저장 공간 크기: 6,  상태: [
 ```java
 Queue queue = new Queue(3);         // 내부 저장 공간 크기: 3, 상태: [_, _, _]
 
-boolean result;
 IntValue outValue = new IntValue();
 
 queue.enqueue(5);                   // 상태: [5, _, _],  (front=0, rear=1)
 queue.enqueue(7);                   // 상태: [5, 7, _],  (front=0, rear=2)
 
-result = queue.dequeue(outValue);   // true,  outValue.getValue() == 5,  상태: [_, 7, _],  (front=1, rear=2)
-result = queue.dequeue(outValue);   // true,  outValue.getValue() == 7,  상태: [_, _, _],  (front=2, rear=2)
-result = queue.dequeue(outValue);   // false
+boolean isDequeued = queue.dequeue(outValue); // true,  outValue.getValue() == 5,  상태: [_, 7, _],  (front=1, rear=2)
+isDequeued = queue.dequeue(outValue);         // true,  outValue.getValue() == 7,  상태: [_, _, _],  (front=2, rear=2)
+isDequeued = queue.dequeue(outValue);         // false
 ```
 
 #### 2.4.3. `peek` 메서드를 구현한다
@@ -553,32 +540,30 @@ result = queue.dequeue(outValue);   // false
 ```java
 Queue queue = new Queue(3);         // 내부 저장 공간 크기: 3, 상태: [_, _, _]
 
-boolean result;
 IntValue outValue = new IntValue();
 
 queue.enqueue(5);                   // 상태: [5, _, _],  (front=0, rear=1)
 queue.enqueue(7);                   // 상태: [5, 7, _],  (front=0, rear=2)
 
-result = queue.peek(outValue);      // true,  outValue.getValue() == 5,  상태: [5, 7, _],  (front=0, rear=2)
-result = queue.dequeue(outValue);   // true,  outValue.getValue() == 5,  상태: [_, 7, _],  (front=1, rear=2)
-result = queue.peek(outValue);      // true,  outValue.getValue() == 7,  상태: [_, 7, _],  (front=1, rear=2)
+boolean hasFrontValue = queue.peek(outValue); // true,  outValue.getValue() == 5,  상태: [5, 7, _],  (front=0, rear=2)
+boolean isDequeued = queue.dequeue(outValue); // true,  outValue.getValue() == 5,  상태: [_, 7, _],  (front=1, rear=2)
+hasFrontValue = queue.peek(outValue);         // true,  outValue.getValue() == 7,  상태: [_, 7, _],  (front=1, rear=2)
 ```
 
 ```java
 Queue queue = new Queue(3);         // 내부 저장 공간 크기: 3, 상태: [_, _, _]
 
-boolean result;
 IntValue outValue = new IntValue();
 
-result = queue.enqueue(5);          // true,  상태: [5, _, _],  (front=0, rear=1)
-result = queue.enqueue(7);          // true,  상태: [5, 7, _],  (front=0, rear=2)
-result = queue.enqueue(9);          // true,  상태: [5, 7, 9],  (front=0, rear=0)
+boolean isEnqueued = queue.enqueue(5); // true,  상태: [5, _, _],  (front=0, rear=1)
+isEnqueued = queue.enqueue(7);         // true,  상태: [5, 7, _],  (front=0, rear=2)
+isEnqueued = queue.enqueue(9);         // true,  상태: [5, 7, 9],  (front=0, rear=0)
 
-result = queue.peek(outValue);      // true,  outValue.getValue() == 5,  상태: [5, 7, 9],  (front=0, rear=0)
-result = queue.dequeue(outValue);   // true,  outValue.getValue() == 5,  상태: [_, 7, 9],  (front=1, rear=0)
+boolean hasFrontValue = queue.peek(outValue); // true,  outValue.getValue() == 5,  상태: [5, 7, 9],  (front=0, rear=0)
+boolean isDequeued = queue.dequeue(outValue); // true,  outValue.getValue() == 5,  상태: [_, 7, 9],  (front=1, rear=0)
 
-result = queue.enqueue(11);         // true,  상태: [11, 7, 9], (front=1, rear=1)
-result = queue.enqueue(13);         // true,  내부 저장 공간 크기: 6,  상태: [7, 9, 11, 13, _, _],  (front=0, rear=4)
+isEnqueued = queue.enqueue(11);         // true,  상태: [11, 7, 9], (front=1, rear=1)
+isEnqueued = queue.enqueue(13);         // true,  내부 저장 공간 크기: 6,  상태: [7, 9, 11, 13, _, _],  (front=0, rear=4)
 ```
 
 #### 2.4.4. `getCount` 메서드를 구현한다
@@ -646,14 +631,13 @@ int capacity = queue.getCapacity(); // 3
 ```java
 Queue queue = new Queue(3); // 내부 저장 공간 크기: 3, 상태: [_, _, _]
 
-boolean empty;
-empty = queue.isEmpty();    // true
+boolean isEmpty = queue.isEmpty(); // true
 
 queue.enqueue(5);           // 상태: [5, _, _] (front=0, rear=1)
-empty = queue.isEmpty();    // false
+isEmpty = queue.isEmpty();         // false
 
 queue.clear();              // 상태: [_, _, _] (front=0, rear=0)
-empty = queue.isEmpty();    // true
+isEmpty = queue.isEmpty();         // true
 ```
 
 ### 2.5. `LinkedList` 클래스를 구현한다
@@ -692,10 +676,9 @@ empty = queue.isEmpty();    // true
 ```java
 LinkedList list = new LinkedList(); // 상태: []
 
-boolean result;
-result = list.add(5);               // true,  상태: [5]
-result = list.add(7);               // true,  상태: [5, 7]
-result = list.add(9);               // true,  상태: [5, 7, 9]
+boolean isAdded = list.add(5); // true,  상태: [5]
+isAdded = list.add(7);         // true,  상태: [5, 7]
+isAdded = list.add(9);         // true,  상태: [5, 7, 9]
 ```
 
 #### 2.5.2. `insert` 메서드를 구현한다
@@ -715,12 +698,11 @@ result = list.add(9);               // true,  상태: [5, 7, 9]
 ```java
 LinkedList list = new LinkedList(); // 상태: []
 
-boolean result;
 list.add(5);                        // 상태: [5]
 list.add(7);                        // 상태: [5, 7]
 
-result = list.insert(2, 8);         // true,   상태: [5, 7, 8]
-result = list.insert(4, 9);         // false,  상태: [5, 7, 8]
+boolean isInserted = list.insert(2, 8); // true,   상태: [5, 7, 8]
+isInserted = list.insert(4, 9);         // false,  상태: [5, 7, 8]
 ```
 
 #### 2.5.3. `removeAt` 메서드를 구현한다
@@ -738,13 +720,12 @@ result = list.insert(4, 9);         // false,  상태: [5, 7, 8]
 ```java
 LinkedList list = new LinkedList(); // 상태: []
 
-boolean result;
 list.add(5);                        // 상태: [5]
 list.add(6);                        // 상태: [5, 6]
 list.add(7);                        // 상태: [5, 6, 7]
 
-result = list.removeAt(1);          // true,   상태: [5, 7]
-result = list.removeAt(-1);         // false,  상태: [5, 7]
+boolean isRemoved = list.removeAt(1); // true,   상태: [5, 7]
+isRemoved = list.removeAt(-1);        // false,  상태: [5, 7]
 ```
 
 #### 2.5.4. `get` 메서드를 구현한다
@@ -766,14 +747,13 @@ result = list.removeAt(-1);         // false,  상태: [5, 7]
 ```java
 LinkedList list = new LinkedList();
 
-boolean result;
 IntValue outValue = new IntValue();
 
 list.add(5);
 list.add(7);
 
-result = list.get(1, outValue);  // true,  outValue.getValue() == 7
-result = list.get(2, outValue);  // false
+boolean isFound = list.get(1, outValue); // true,  outValue.getValue() == 7
+isFound = list.get(2, outValue);         // false
 ```
 
 #### 2.5.5. `set` 메서드를 구현한다
@@ -793,12 +773,11 @@ result = list.get(2, outValue);  // false
 ```java
 LinkedList list = new LinkedList(); // 상태: []
 
-boolean result;
 list.add(5);                        // 상태: [5]
 list.add(7);                        // 상태: [5, 7]
 
-result = list.set(1, 9);            // true,  상태: [5, 9]
-result = list.set(3, 4);            // false, 상태: [5, 9]
+boolean isUpdated = list.set(1, 9); // true,  상태: [5, 9]
+isUpdated = list.set(3, 4);         // false, 상태: [5, 9]
 ```
 
 #### 2.5.6. `getCount` 메서드를 구현한다
@@ -846,12 +825,11 @@ int count = list.getCount();        // 0
 ```java
 LinkedList list = new LinkedList(); // 상태: []
 
-boolean empty;
-empty = list.isEmpty();             // true
+boolean isEmpty = list.isEmpty(); // true
 
 list.add(5);                        // 상태: [5]
-empty = list.isEmpty();             // false
+isEmpty = list.isEmpty();         // false
 
 list.clear();                       // 상태: []
-empty = list.isEmpty();             // true
+isEmpty = list.isEmpty();         // true
 ```

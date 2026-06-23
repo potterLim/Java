@@ -103,10 +103,8 @@ public class List {
             return;
         }
 
-        int newCapacity;
-        if (mElements.length == 0) {
-            newCapacity = DEFAULT_INITIAL_CAPACITY;
-        } else {
+        int newCapacity = DEFAULT_INITIAL_CAPACITY;
+        if (mElements.length > 0) {
             newCapacity = mElements.length * 2;
         }
 

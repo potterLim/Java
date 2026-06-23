@@ -1,6 +1,6 @@
 package com.example.lineardatastructures;
 
-public final class IntValue {
+public class IntValue {
     private int mValue;
 
     public int getValue() {

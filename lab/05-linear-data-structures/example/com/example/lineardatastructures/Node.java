@@ -1,6 +1,6 @@
 package com.example.lineardatastructures;
 
-final class Node {
+class Node {
     private int mValue;
     private Node mNext;
 

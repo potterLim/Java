@@ -1,6 +1,6 @@
 package com.example.lineardatastructures;
 
-public final class Main {
+public class Main {
     private static int sPassedCount;
     private static int sFailedCount;
     private static String sFailureMessage;
@@ -20,133 +20,133 @@ public final class Main {
     private static void verifyList() {
         List list = new List();
 
-        boolean isPassed = checkTrue("new list is empty", list.isEmpty())
-                && checkEquals("new list capacity", 0, list.getCapacity())
-                && checkTrue("add first value", list.add(5))
-                && checkTrue("add second value", list.add(7))
-                && checkTrue("add third value", list.add(9))
-                && checkTrue("add fourth value", list.add(11))
-                && checkEquals("first capacity growth", 4, list.getCapacity())
-                && checkTrue("add fifth value", list.add(13))
-                && checkEquals("second capacity growth", 8, list.getCapacity())
-                && checkTrue("insert in middle", list.insert(2, 8))
-                && checkFalse("reject invalid insert", list.insert(7, 99))
-                && checkValues("values after insert", list, new int[] { 5, 7, 8, 9, 11, 13 })
-                && checkTrue("set middle value", list.set(2, 80))
-                && checkFalse("reject invalid set", list.set(6, 99))
-                && checkTrue("remove first value", list.removeAt(0))
-                && checkTrue("remove last value", list.removeAt(4))
-                && checkFalse("reject invalid remove", list.removeAt(-1))
-                && checkValues("values after remove", list, new int[] { 7, 80, 9, 11 });
+        boolean isPassed = checkTrue("새 List는 비어 있음", list.isEmpty())
+                && checkEquals("새 List의 내부 저장 공간 크기", 0, list.getCapacity())
+                && checkTrue("첫 번째 값 추가", list.add(5))
+                && checkTrue("두 번째 값 추가", list.add(7))
+                && checkTrue("세 번째 값 추가", list.add(9))
+                && checkTrue("네 번째 값 추가", list.add(11))
+                && checkEquals("첫 번째 내부 저장 공간 확장", 4, list.getCapacity())
+                && checkTrue("다섯 번째 값 추가", list.add(13))
+                && checkEquals("두 번째 내부 저장 공간 확장", 8, list.getCapacity())
+                && checkTrue("중간 위치 삽입", list.insert(2, 8))
+                && checkFalse("잘못된 삽입 거부", list.insert(7, 99))
+                && checkValues("삽입 후 값", list, new int[] { 5, 7, 8, 9, 11, 13 })
+                && checkTrue("중간 값 변경", list.set(2, 80))
+                && checkFalse("잘못된 변경 거부", list.set(6, 99))
+                && checkTrue("첫 번째 값 제거", list.removeAt(0))
+                && checkTrue("마지막 값 제거", list.removeAt(4))
+                && checkFalse("잘못된 제거 거부", list.removeAt(-1))
+                && checkValues("제거 후 값", list, new int[] { 7, 80, 9, 11 });
 
         if (isPassed) {
             list.clear();
-            isPassed = checkTrue("clear makes list empty", list.isEmpty())
-                    && checkEquals("clear preserves capacity", 8, list.getCapacity());
+            isPassed = checkTrue("clear 후 List가 비어 있음", list.isEmpty())
+                    && checkEquals("clear 후 내부 저장 공간 유지", 8, list.getCapacity());
         }
 
-        verifyScenario("array list preserves order and capacity rules", isPassed);
+        verifyScenario("배열 기반 List의 순서와 내부 저장 공간 규칙", isPassed);
     }
 
     private static void verifyStack() {
         Stack stack = new Stack(2);
         IntValue outValue = new IntValue();
 
-        boolean isPassed = checkTrue("new stack is empty", stack.isEmpty())
-                && checkEquals("initial capacity", 2, stack.getCapacity())
-                && checkTrue("push first value", stack.push(5))
-                && checkTrue("push second value", stack.push(7))
-                && checkTrue("push third value", stack.push(9))
-                && checkEquals("capacity grows", 4, stack.getCapacity())
-                && checkEquals("count after push", 3, stack.getCount())
-                && checkTrue("peek succeeds", stack.peek(outValue))
-                && checkEquals("peek returns top", 9, outValue.getValue())
-                && checkEquals("peek keeps count", 3, stack.getCount())
-                && checkTrue("pop top", stack.pop(outValue))
-                && checkEquals("first pop value", 9, outValue.getValue())
-                && checkTrue("pop next", stack.pop(outValue))
-                && checkEquals("second pop value", 7, outValue.getValue());
+        boolean isPassed = checkTrue("새 Stack은 비어 있음", stack.isEmpty())
+                && checkEquals("초기 내부 저장 공간 크기", 2, stack.getCapacity())
+                && checkTrue("첫 번째 값 push", stack.push(5))
+                && checkTrue("두 번째 값 push", stack.push(7))
+                && checkTrue("세 번째 값 push", stack.push(9))
+                && checkEquals("내부 저장 공간 확장", 4, stack.getCapacity())
+                && checkEquals("push 후 개수", 3, stack.getCount())
+                && checkTrue("peek 성공", stack.peek(outValue))
+                && checkEquals("peek으로 top 확인", 9, outValue.getValue())
+                && checkEquals("peek 후 개수 유지", 3, stack.getCount())
+                && checkTrue("top pop", stack.pop(outValue))
+                && checkEquals("첫 번째 pop 값", 9, outValue.getValue())
+                && checkTrue("다음 값 pop", stack.pop(outValue))
+                && checkEquals("두 번째 pop 값", 7, outValue.getValue());
 
         if (isPassed) {
             stack.clear();
-            isPassed = checkTrue("clear makes stack empty", stack.isEmpty())
-                    && checkEquals("clear preserves capacity", 4, stack.getCapacity())
-                    && checkFalse("reject empty pop", stack.pop(outValue))
-                    && checkFalse("reject empty peek", stack.peek(outValue));
+            isPassed = checkTrue("clear 후 Stack이 비어 있음", stack.isEmpty())
+                    && checkEquals("clear 후 내부 저장 공간 유지", 4, stack.getCapacity())
+                    && checkFalse("빈 Stack에서 pop 거부", stack.pop(outValue))
+                    && checkFalse("빈 Stack에서 peek 거부", stack.peek(outValue));
         }
 
-        verifyScenario("stack follows LIFO and capacity rules", isPassed);
+        verifyScenario("Stack의 LIFO와 내부 저장 공간 규칙", isPassed);
     }
 
     private static void verifyQueue() {
         Queue queue = new Queue(3);
         IntValue outValue = new IntValue();
 
-        boolean isPassed = checkTrue("new queue is empty", queue.isEmpty())
-                && checkEquals("initial capacity", 3, queue.getCapacity())
-                && checkTrue("enqueue first value", queue.enqueue(5))
-                && checkTrue("enqueue second value", queue.enqueue(7))
-                && checkTrue("enqueue third value", queue.enqueue(9))
-                && checkEquals("count after enqueue", 3, queue.getCount())
-                && checkTrue("peek succeeds", queue.peek(outValue))
-                && checkEquals("peek returns front", 5, outValue.getValue())
-                && checkTrue("dequeue first value", queue.dequeue(outValue))
-                && checkEquals("first dequeue value", 5, outValue.getValue())
-                && checkTrue("enqueue wraps rear", queue.enqueue(11))
-                && checkTrue("enqueue triggers growth", queue.enqueue(13))
-                && checkEquals("capacity grows", 6, queue.getCapacity())
-                && checkEquals("count after growth", 4, queue.getCount())
-                && checkTrue("dequeue second value", queue.dequeue(outValue))
-                && checkEquals("second dequeue value", 7, outValue.getValue())
-                && checkTrue("dequeue third value", queue.dequeue(outValue))
-                && checkEquals("third dequeue value", 9, outValue.getValue())
-                && checkTrue("dequeue wrapped value", queue.dequeue(outValue))
-                && checkEquals("wrapped dequeue value", 11, outValue.getValue())
-                && checkTrue("dequeue grown value", queue.dequeue(outValue))
-                && checkEquals("grown dequeue value", 13, outValue.getValue());
+        boolean isPassed = checkTrue("새 Queue는 비어 있음", queue.isEmpty())
+                && checkEquals("초기 내부 저장 공간 크기", 3, queue.getCapacity())
+                && checkTrue("첫 번째 값 enqueue", queue.enqueue(5))
+                && checkTrue("두 번째 값 enqueue", queue.enqueue(7))
+                && checkTrue("세 번째 값 enqueue", queue.enqueue(9))
+                && checkEquals("enqueue 후 개수", 3, queue.getCount())
+                && checkTrue("peek 성공", queue.peek(outValue))
+                && checkEquals("peek으로 front 확인", 5, outValue.getValue())
+                && checkTrue("첫 번째 값 dequeue", queue.dequeue(outValue))
+                && checkEquals("첫 번째 dequeue 값", 5, outValue.getValue())
+                && checkTrue("rear 순환 후 enqueue", queue.enqueue(11))
+                && checkTrue("enqueue 중 내부 저장 공간 확장", queue.enqueue(13))
+                && checkEquals("내부 저장 공간 확장", 6, queue.getCapacity())
+                && checkEquals("확장 후 개수", 4, queue.getCount())
+                && checkTrue("두 번째 값 dequeue", queue.dequeue(outValue))
+                && checkEquals("두 번째 dequeue 값", 7, outValue.getValue())
+                && checkTrue("세 번째 값 dequeue", queue.dequeue(outValue))
+                && checkEquals("세 번째 dequeue 값", 9, outValue.getValue())
+                && checkTrue("순환 위치의 값 dequeue", queue.dequeue(outValue))
+                && checkEquals("순환 위치의 dequeue 값", 11, outValue.getValue())
+                && checkTrue("확장 후 추가된 값 dequeue", queue.dequeue(outValue))
+                && checkEquals("확장 후 추가된 dequeue 값", 13, outValue.getValue());
 
         if (isPassed) {
             queue.clear();
-            isPassed = checkTrue("clear makes queue empty", queue.isEmpty())
-                    && checkEquals("clear preserves capacity", 6, queue.getCapacity())
-                    && checkFalse("reject empty dequeue", queue.dequeue(outValue))
-                    && checkFalse("reject empty peek", queue.peek(outValue));
+            isPassed = checkTrue("clear 후 Queue가 비어 있음", queue.isEmpty())
+                    && checkEquals("clear 후 내부 저장 공간 유지", 6, queue.getCapacity())
+                    && checkFalse("빈 Queue에서 dequeue 거부", queue.dequeue(outValue))
+                    && checkFalse("빈 Queue에서 peek 거부", queue.peek(outValue));
         }
 
-        verifyScenario("queue follows FIFO, wraparound, and capacity rules", isPassed);
+        verifyScenario("Queue의 FIFO, 순환, 내부 저장 공간 규칙", isPassed);
     }
 
     private static void verifyLinkedList() {
         LinkedList list = new LinkedList();
 
-        boolean isPassed = checkTrue("new linked list is empty", list.isEmpty())
-                && checkTrue("add first value", list.add(5))
-                && checkTrue("add second value", list.add(7))
-                && checkTrue("insert in middle", list.insert(1, 6))
-                && checkTrue("insert at front", list.insert(0, 4))
-                && checkTrue("insert at end", list.insert(4, 9))
-                && checkFalse("reject invalid insert", list.insert(6, 99))
-                && checkValues("values after insert", list, new int[] { 4, 5, 6, 7, 9 })
-                && checkTrue("set middle value", list.set(2, 60))
-                && checkFalse("reject invalid set", list.set(5, 99))
-                && checkTrue("remove first value", list.removeAt(0))
-                && checkTrue("remove last value", list.removeAt(3))
-                && checkValues("values after edge removals", list, new int[] { 5, 60, 7 })
-                && checkTrue("remove middle value", list.removeAt(1))
-                && checkFalse("reject invalid remove", list.removeAt(2))
-                && checkValues("values after middle removal", list, new int[] { 5, 7 });
+        boolean isPassed = checkTrue("새 LinkedList는 비어 있음", list.isEmpty())
+                && checkTrue("첫 번째 값 추가", list.add(5))
+                && checkTrue("두 번째 값 추가", list.add(7))
+                && checkTrue("중간 위치 삽입", list.insert(1, 6))
+                && checkTrue("맨 앞 삽입", list.insert(0, 4))
+                && checkTrue("맨 뒤 삽입", list.insert(4, 9))
+                && checkFalse("잘못된 삽입 거부", list.insert(6, 99))
+                && checkValues("삽입 후 값", list, new int[] { 4, 5, 6, 7, 9 })
+                && checkTrue("중간 값 변경", list.set(2, 60))
+                && checkFalse("잘못된 변경 거부", list.set(5, 99))
+                && checkTrue("첫 번째 값 제거", list.removeAt(0))
+                && checkTrue("마지막 값 제거", list.removeAt(3))
+                && checkValues("양끝 제거 후 값", list, new int[] { 5, 60, 7 })
+                && checkTrue("중간 값 제거", list.removeAt(1))
+                && checkFalse("잘못된 제거 거부", list.removeAt(2))
+                && checkValues("중간 제거 후 값", list, new int[] { 5, 7 });
 
         if (isPassed) {
             list.clear();
-            isPassed = checkTrue("clear makes linked list empty", list.isEmpty())
-                    && checkEquals("clear resets count", 0, list.getCount());
+            isPassed = checkTrue("clear 후 LinkedList가 비어 있음", list.isEmpty())
+                    && checkEquals("clear 후 개수 초기화", 0, list.getCount());
         }
 
-        verifyScenario("linked list preserves links and boundary rules", isPassed);
+        verifyScenario("LinkedList의 연결과 경계 조건", isPassed);
     }
 
     private static boolean checkValues(String name, List list, int[] expected) {
-        if (!checkEquals(name + " count", expected.length, list.getCount())) {
+        if (!checkEquals(name + " 개수", expected.length, list.getCount())) {
             return false;
         }
 
@@ -154,12 +154,12 @@ public final class Main {
 
         for (int i = 0; i < expected.length; ++i) {
             if (!list.get(i, outValue)) {
-                sFailureMessage = name + ": get failed at index=" + i;
+                sFailureMessage = name + ": get 실패, 인덱스=" + i;
                 return false;
             }
 
             if (outValue.getValue() != expected[i]) {
-                sFailureMessage = name + ": index=" + i + ", expected=" + expected[i] + ", actual=" + outValue.getValue();
+                sFailureMessage = name + ": 인덱스=" + i + ", 기대=" + expected[i] + ", 실제=" + outValue.getValue();
                 return false;
             }
         }
@@ -168,7 +168,7 @@ public final class Main {
     }
 
     private static boolean checkValues(String name, LinkedList list, int[] expected) {
-        if (!checkEquals(name + " count", expected.length, list.getCount())) {
+        if (!checkEquals(name + " 개수", expected.length, list.getCount())) {
             return false;
         }
 
@@ -176,12 +176,12 @@ public final class Main {
 
         for (int i = 0; i < expected.length; ++i) {
             if (!list.get(i, outValue)) {
-                sFailureMessage = name + ": get failed at index=" + i;
+                sFailureMessage = name + ": get 실패, 인덱스=" + i;
                 return false;
             }
 
             if (outValue.getValue() != expected[i]) {
-                sFailureMessage = name + ": index=" + i + ", expected=" + expected[i] + ", actual=" + outValue.getValue();
+                sFailureMessage = name + ": 인덱스=" + i + ", 기대=" + expected[i] + ", 실제=" + outValue.getValue();
                 return false;
             }
         }
@@ -194,7 +194,7 @@ public final class Main {
             return true;
         }
 
-        sFailureMessage = name + ": expected=" + expected + ", actual=" + actual;
+        sFailureMessage = name + ": 기대=" + expected + ", 실제=" + actual;
         return false;
     }
 
@@ -203,7 +203,7 @@ public final class Main {
             return true;
         }
 
-        sFailureMessage = name + ": expected=true, actual=false";
+        sFailureMessage = name + ": 기대=true, 실제=false";
         return false;
     }
 
@@ -212,7 +212,7 @@ public final class Main {
             return true;
         }
 
-        sFailureMessage = name + ": expected=false, actual=true";
+        sFailureMessage = name + ": 기대=false, 실제=true";
         return false;
     }
 
@@ -228,17 +228,17 @@ public final class Main {
 
     private static void pass(String name) {
         ++sPassedCount;
-        System.out.println("[PASS] " + name);
+        System.out.println("[통과] " + name);
     }
 
     private static void fail(String name, String message) {
         ++sFailedCount;
-        System.out.println("[FAIL] " + name + " (" + message + ")");
+        System.out.println("[실패] " + name + " (" + message + ")");
     }
 
     private static void printSummary() {
         System.out.println();
-        System.out.println("Passed: " + sPassedCount);
-        System.out.println("Failed: " + sFailedCount);
+        System.out.println("통과: " + sPassedCount);
+        System.out.println("실패: " + sFailedCount);
     }
 }
