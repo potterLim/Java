@@ -7,7 +7,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class ConvoyLane {
+public class ConvoyLane {
     private final String mLaneName;
     private final int mCapacity;
     private int mTurns;
@@ -96,7 +96,7 @@ public final class ConvoyLane {
         }
 
         if (shipCount == 1) {
-            return new int[]{ 0 };
+            return new int[] { 0 };
         }
 
         return predictIncomingDamageInternal(shipCount);

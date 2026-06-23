@@ -1,6 +1,6 @@
 package com.example.spaceconvoy;
 
-public final class Ship {
+public class Ship {
     private static final double LIGHT_MULTIPLIER = 1.25;
     private static final double MEDIUM_MULTIPLIER = 1.00;
     private static final double HEAVY_MULTIPLIER = 0.85;
