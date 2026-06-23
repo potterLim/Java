@@ -8,7 +8,8 @@
 
 이 실습에서 파일 입출력은 분석할 텍스트를 가져오고 리포트를 저장하기 위한 수단이며, 핵심은 읽어온 문자열에서 의미 있는 TODO 항목을 찾아 일관된 결과로 정리하는 데 있다.
 
-이 실습은 단순히 파일을 읽는 데서 그치지 않는다. 명확한 규칙에 따라 정보를 수집하고 그 결과를 일관된 형식으로 정리하여 제공하는 프로그램을 직접 설계하고 구현하는 데 목적이 있다.
+이 실습은 단순히 파일을 읽는 데서 그치지 않는다.  
+명확한 규칙에 따라 정보를 수집하고 그 결과를 일관된 형식으로 정리하여 제공하는 프로그램을 직접 설계하고 구현하는 데 목적이 있다.
 
 ## 전반적인 규칙
 
@@ -102,7 +103,7 @@ java-labs/
 - 리포트는 텍스트 파일이며 인코딩은 UTF-8로 저장한다.
 
 - 리포트는 다음 규칙의 텍스트로 구성한다.
-    1. 파일 경로
+    1. 파일명
         - TODO가 1개 이상 존재하는 파일에 대해서만 리포트에 포함한다.
         - 파일명은 Java 문자열의 기본 비교 기준에 따라 오름차순으로 정렬하여 출력한다.
         - 각 파일의 첫 줄은 파일명(확장자 포함)으로 출력한다.
@@ -122,6 +123,7 @@ java-labs/
         - 모든 분석 대상 파일에서 TODO가 하나도 추출되지 않은 경우 리포트 파일 내용은 빈 문자열이어야 한다.
 
 - 리포트의 마지막 줄에는 개행 문자(`'\n`)가 없어야 한다.
+
 ```c
 // alpha.c
 int add(int a, int b)
@@ -134,15 +136,14 @@ int add(int a, int b)
 // beta.java
 public final class Beta {
     public static void main(String[] args) {
-    /* TODO: refactor main logic
-             - extract method
-             - remove duplication 
-    */
-    int x = 10;
+        /* TODO: refactor main logic
+                 - extract method
+                 - remove duplication
+        */
+        int x = 10;
 
-
-    // TODO: add input validation
-    System.out.println(x);
+        // TODO: add input validation
+        System.out.println(x);
     }
 }
 ```

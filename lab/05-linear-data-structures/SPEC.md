@@ -81,7 +81,7 @@ public final class IntValue {
 
 - `IntValue`는 메서드가 성공 여부와 결과 값을 함께 표현해야 할 때 사용하는 결과 전달용 객체이다.
 
-- `get`, `pop`, `peek`, `dequeue` 같은 메서드는 성공 여부를 `boolean`으로 반환하고, 실제 결과 값은 전달받은 `IntValue` 객체의 값을 변경하여 전달한다.
+- `get`, `pop`, `peek`, `dequeue` 같은 메서드는 성공 여부를 `boolean`으로 반환하고 실제 결과 값은 전달받은 `IntValue` 객체의 값을 변경하여 전달한다.
 
 ### 2.2. `List` 클래스를 구현한다
 
@@ -253,6 +253,7 @@ list.add(11);                      // 내부 저장 공간 크기: 6,  상태: [
 
 capacity = list.getCapacity();     // 6
 ```
+
 #### 2.2.8. `clear` 메서드를 구현한다
 
 - `clear` 메서드는 리스트에 현재 저장된 모든 원소를 제거할 때 사용한다.
