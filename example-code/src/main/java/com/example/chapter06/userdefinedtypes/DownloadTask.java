@@ -1,6 +1,8 @@
-package com.example.userdefinedtypes;
+package com.example.chapter06.userdefinedtypes;
 
 public class DownloadTask {
+    private static final int PROGRESS_PERCENT_SCALE = 100;
+
     private static int sCreatedTaskCount;
     private static int sNextId = 1;
 
@@ -16,7 +18,7 @@ public class DownloadTask {
         mId = sNextId;
         ++sNextId;
 
-        if (fileNameOrNull == null || fileNameOrNull.isEmpty()) {
+        if (fileNameOrNull == null || fileNameOrNull.isBlank()) {
             mFileName = "unknown";
         } else {
             mFileName = fileNameOrNull;
@@ -30,6 +32,10 @@ public class DownloadTask {
 
         mStatus = EDownloadStatus.QUEUED;
         mDownloadedBytes = 0;
+    }
+
+    public static int getCreatedTaskCount() {
+        return sCreatedTaskCount;
     }
 
     public int getId() {
@@ -52,6 +58,18 @@ public class DownloadTask {
         return mStatus;
     }
 
+    public boolean isCompleted() {
+        return mStatus == EDownloadStatus.COMPLETED;
+    }
+
+    public int getProgressPercent() {
+        if (mTotalBytes == 0) {
+            return PROGRESS_PERCENT_SCALE;
+        }
+
+        return (int) (mDownloadedBytes * PROGRESS_PERCENT_SCALE / mTotalBytes);
+    }
+
     public void start() {
         if (mStatus != EDownloadStatus.QUEUED) {
             return;
@@ -60,24 +78,16 @@ public class DownloadTask {
         mStatus = EDownloadStatus.DOWNLOADING;
     }
 
-    public void fail() {
-        if (mStatus == EDownloadStatus.COMPLETED) {
-            return;
-        }
-
-        mStatus = EDownloadStatus.FAILED;
-    }
-
-    public void addProgress(long bytes) {
+    public void addProgress(long additionalDownloadedBytes) {
         if (mStatus != EDownloadStatus.DOWNLOADING) {
             return;
         }
 
-        if (bytes <= 0) {
+        if (additionalDownloadedBytes <= 0) {
             return;
         }
 
-        mDownloadedBytes += bytes;
+        mDownloadedBytes += additionalDownloadedBytes;
 
         if (mDownloadedBytes >= mTotalBytes) {
             mDownloadedBytes = mTotalBytes;
@@ -85,7 +95,19 @@ public class DownloadTask {
         }
     }
 
-    public static int getCreatedTaskCount() {
-        return sCreatedTaskCount;
+    public void fail() {
+        if (mStatus == EDownloadStatus.COMPLETED || mStatus == EDownloadStatus.CANCELED) {
+            return;
+        }
+
+        mStatus = EDownloadStatus.FAILED;
+    }
+
+    public void cancel() {
+        if (mStatus == EDownloadStatus.COMPLETED) {
+            return;
+        }
+
+        mStatus = EDownloadStatus.CANCELED;
     }
 }
