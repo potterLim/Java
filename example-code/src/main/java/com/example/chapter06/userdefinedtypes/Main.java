@@ -38,7 +38,7 @@ public class Main {
         System.out.println("downloadStatus = " + downloadStatus);
         System.out.println("paymentStatus = " + paymentStatus);
 
-        // downloadStatus = paymentStatus; // 컴파일 에러
+        // 서로 다른 enum 자료형이므로 컴파일되지 않음: downloadStatus = paymentStatus;
     }
 
     private static void demonstrateEnumSwitch() {
@@ -82,17 +82,21 @@ public class Main {
 
         DownloadTask task = new DownloadTask("notes.pdf", 10_000L);
         DownloadTask canceledTask = new DownloadTask("old.zip", 1_000L);
+        DownloadTask failedTask = new DownloadTask("broken.zip", 1_000L);
 
         task.start();
         task.addProgress(3_000L);
         task.addProgress(7_000L);
         canceledTask.cancel();
+        failedTask.start();
+        failedTask.fail();
 
         System.out.println("fileName = " + task.getFileName());
         System.out.println("status = " + task.getStatus());
         System.out.println("progressPercent = " + task.getProgressPercent());
         System.out.println("isCompleted = " + task.isCompleted());
         System.out.println("canceledTask status = " + canceledTask.getStatus());
+        System.out.println("failedTask status = " + failedTask.getStatus());
     }
 
     private static void demonstrateObjectReferenceSharing() {
@@ -142,7 +146,7 @@ public class Main {
 
         DownloadTask task = new DownloadTask("video.mp4", 100_000L);
 
-        // task.mDownloadedBytes = 123L; // 컴파일 에러
+        // private 접근 제한으로 컴파일되지 않음: task.mDownloadedBytes = 123L;
 
         task.start();
         task.addProgress(50_000L);

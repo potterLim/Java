@@ -32,8 +32,8 @@ public class Main {
         int firstScore = scores.get(0);
         int totalScore = 0;
 
-        for (int score : scores) {
-            totalScore += score;
+        for (int i = 0; i < scores.size(); ++i) {
+            totalScore += scores.get(i);
         }
 
         System.out.println("scores = " + scores);

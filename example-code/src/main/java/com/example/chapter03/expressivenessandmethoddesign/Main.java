@@ -19,7 +19,7 @@ public class Main {
 
         notifyUser("서버가 시작되었습니다.");
         notifyUser("AUTH", "로그인에 성공했습니다.");
-        notifyUser("PAYMENT", "결제가 승인되었습니다.", 202);
+        notifyUser("PAYMENT", "결제가 승인되었습니다.", 3);
     }
 
     private static void notifyUser(String message) {
@@ -30,8 +30,8 @@ public class Main {
         System.out.println("[" + title + "] " + message);
     }
 
-    private static void notifyUser(String title, String message, int statusCode) {
-        System.out.println("[" + title + "-" + statusCode + "] " + message);
+    private static void notifyUser(String title, String message, int priority) {
+        System.out.println("[P" + priority + "] [" + title + "] " + message);
     }
 
     private static void demonstrateMethodSignature() {
@@ -43,7 +43,7 @@ public class Main {
         System.out.println("averageScore = " + averageScore);
 
         // 반환형만 다른 메서드는 오버로딩할 수 없다.
-        // public static double calculateAverageScore(int[] scores) { return 0.0; }
+        // public static double calculateAverageScore(int[] scores);
     }
 
     private static int calculateAverageScore(int[] scores) {
@@ -52,8 +52,8 @@ public class Main {
 
         int totalScore = 0;
 
-        for (int score : scores) {
-            totalScore += score;
+        for (int i = 0; i < scores.length; ++i) {
+            totalScore += scores[i];
         }
 
         return totalScore / scores.length;
