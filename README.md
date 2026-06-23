@@ -85,11 +85,11 @@
 [slide-code-05]: ./notes/slide-code/05-syntax-and-language-ergonomics/
 [slide-code-06]: ./notes/slide-code/06-user-defined-types/
 
-[example-02]: ./example-code/src/main/java/com/example/valuesandreferences/
-[example-03]: ./example-code/src/main/java/com/example/expressivenessandmethoddesign/
-[example-04]: ./example-code/src/main/java/com/example/collectiondatamanagement/
-[example-05]: ./example-code/src/main/java/com/example/syntaxandlanguageergonomics/
-[example-06]: ./example-code/src/main/java/com/example/userdefinedtypes/
+[example-02]: ./example-code/src/main/java/com/example/chapter02/valuesandreferences/
+[example-03]: ./example-code/src/main/java/com/example/chapter03/expressivenessandmethoddesign/
+[example-04]: ./example-code/src/main/java/com/example/chapter04/managingdatawithcollections/
+[example-05]: ./example-code/src/main/java/com/example/chapter05/syntaxandlanguageergonomics/
+[example-06]: ./example-code/src/main/java/com/example/chapter06/userdefinedtypes/
 
 [lab-01]: ./lab/01-big-number-calculator/SPEC.md
 [lab-02]: ./lab/02-expression-evaluator/SPEC.md
