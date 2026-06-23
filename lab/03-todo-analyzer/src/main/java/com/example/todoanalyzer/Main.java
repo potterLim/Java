@@ -7,7 +7,7 @@ import java.nio.file.Path;
 import java.util.Comparator;
 import java.util.stream.Stream;
 
-public final class Main {
+public class Main {
     private static int sPassedCount;
     private static int sFailedCount;
     private static String sFailureMessage;
@@ -24,32 +24,31 @@ public final class Main {
     }
 
     private static void verifyInvalidDirectory() {
-        Path filePath = null;
+        Path filePathOrNull = null;
 
         try {
-            filePath = Files.createTempFile("todo-analyzer-main-", ".txt");
+            filePathOrNull = Files.createTempFile("todo-analyzer-main-", ".txt");
 
-            verifyScenario(
-                    "invalid directory inputs return null",
-                    checkNull("null directory", TodoAnalyzer.generateTodoReportOrNull(null))
-                            && checkNull("blank directory", TodoAnalyzer.generateTodoReportOrNull("   "))
-                            && checkNull("file path", TodoAnalyzer.generateTodoReportOrNull(filePath.toString()))
-            );
+            boolean isPassed = checkNull("디렉터리 경로가 null인 경우", TodoAnalyzer.generateTodoReportOrNull(null))
+                    && checkNull("디렉터리 경로가 공백인 경우", TodoAnalyzer.generateTodoReportOrNull("   "))
+                    && checkNull("파일 경로가 전달된 경우", TodoAnalyzer.generateTodoReportOrNull(filePathOrNull.toString()));
+
+            verifyScenario("잘못된 디렉터리 입력은 null 반환", isPassed);
         } catch (IOException exception) {
-            fail("invalid directory setup", exception.getMessage());
+            fail("잘못된 디렉터리 입력 검증 준비", exception.getMessage());
         } finally {
-            deletePathIfExists(filePath);
+            deletePathIfExists(filePathOrNull);
         }
     }
 
     private static void verifyTodoReportGeneration() {
-        Path directoryPath = null;
+        Path directoryPathOrNull = null;
 
         try {
-            directoryPath = Files.createTempDirectory("todo-analyzer-main-");
+            directoryPathOrNull = Files.createTempDirectory("todo-analyzer-main-");
 
             Files.writeString(
-                    directoryPath.resolve("alpha.c"),
+                    directoryPathOrNull.resolve("alpha.c"),
                     String.join(
                             "\n",
                             "int add(int a, int b)",
@@ -61,10 +60,10 @@ public final class Main {
             );
 
             Files.writeString(
-                    directoryPath.resolve("beta.java"),
+                    directoryPathOrNull.resolve("beta.java"),
                     String.join(
                             "\n",
-                            "public final class Beta {",
+                            "public class Beta {",
                             "    public static void main(String[] args) {",
                             "    /* TODO: refactor main logic",
                             "             - extract method",
@@ -77,13 +76,21 @@ public final class Main {
                     StandardCharsets.UTF_8
             );
 
-            Files.writeString(directoryPath.resolve("ignored.md"), "// TODO: this file extension is ignored", StandardCharsets.UTF_8);
+            Files.writeString(
+                    directoryPathOrNull.resolve("ignored.md"),
+                    "// TODO: this file extension is ignored",
+                    StandardCharsets.UTF_8
+            );
 
-            Path nestedDirectoryPath = Files.createDirectory(directoryPath.resolve("nested"));
-            Files.writeString(nestedDirectoryPath.resolve("nested.java"), "// TODO: nested directories are ignored", StandardCharsets.UTF_8);
+            Path nestedDirectoryPath = Files.createDirectory(directoryPathOrNull.resolve("nested"));
+            Files.writeString(
+                    nestedDirectoryPath.resolve("nested.java"),
+                    "// TODO: nested directories are ignored",
+                    StandardCharsets.UTF_8
+            );
 
-            String reportPathOrNull = TodoAnalyzer.generateTodoReportOrNull(directoryPath.toString());
-            boolean isPassed = checkNotNull("report path", reportPathOrNull);
+            String reportPathOrNull = TodoAnalyzer.generateTodoReportOrNull(directoryPathOrNull.toString());
+            boolean isPassed = checkNotNull("리포트 파일 경로", reportPathOrNull);
 
             if (isPassed) {
                 Path reportPath = Path.of(reportPathOrNull);
@@ -97,40 +104,46 @@ public final class Main {
                         "- add input validation"
                 );
 
-                isPassed = checkEquals("report file name", "report.txt", reportPath.getFileName().toString())
-                        && checkEquals("report content", expectedReport, Files.readString(reportPath, StandardCharsets.UTF_8));
+                String actualReport = Files.readString(reportPath, StandardCharsets.UTF_8);
+                isPassed = checkEquals("리포트 파일 이름", "report.txt", reportPath.getFileName().toString())
+                        && checkEquals("리포트 내용", expectedReport, actualReport);
             }
 
-            verifyScenario("generates sorted TODO report", isPassed);
+            verifyScenario("TODO 리포트 생성과 파일명 정렬", isPassed);
         } catch (IOException exception) {
-            fail("report generation setup", exception.getMessage());
+            fail("TODO 리포트 생성 검증 준비", exception.getMessage());
         } finally {
-            deleteDirectoryTree(directoryPath);
+            deleteDirectoryTree(directoryPathOrNull);
         }
     }
 
     private static void verifyReportNameConflictAndEmptyReport() {
-        Path directoryPath = null;
+        Path directoryPathOrNull = null;
 
         try {
-            directoryPath = Files.createTempDirectory("todo-analyzer-main-empty-");
-            Files.writeString(directoryPath.resolve("report.txt"), "existing report", StandardCharsets.UTF_8);
-            Files.writeString(directoryPath.resolve("notes.java"), "public final class Notes {}", StandardCharsets.UTF_8);
+            directoryPathOrNull = Files.createTempDirectory("todo-analyzer-main-empty-");
+            Files.writeString(directoryPathOrNull.resolve("report.txt"), "existing report", StandardCharsets.UTF_8);
+            Files.writeString(
+                    directoryPathOrNull.resolve("notes.java"),
+                    "public class Notes {}",
+                    StandardCharsets.UTF_8
+            );
 
-            String reportPathOrNull = TodoAnalyzer.generateTodoReportOrNull(directoryPath.toString());
-            boolean isPassed = checkNotNull("report path", reportPathOrNull);
+            String reportPathOrNull = TodoAnalyzer.generateTodoReportOrNull(directoryPathOrNull.toString());
+            boolean isPassed = checkNotNull("리포트 파일 경로", reportPathOrNull);
 
             if (isPassed) {
                 Path reportPath = Path.of(reportPathOrNull);
-                isPassed = checkEquals("next report file name", "report-2.txt", reportPath.getFileName().toString())
-                        && checkEquals("empty report content", "", Files.readString(reportPath, StandardCharsets.UTF_8));
+                String actualReport = Files.readString(reportPath, StandardCharsets.UTF_8);
+                isPassed = checkEquals("다음 리포트 파일 이름", "report-2.txt", reportPath.getFileName().toString())
+                        && checkEquals("TODO가 없는 리포트 내용", "", actualReport);
             }
 
-            verifyScenario("uses next report name and supports empty reports", isPassed);
+            verifyScenario("리포트 이름 충돌과 빈 리포트 처리", isPassed);
         } catch (IOException exception) {
-            fail("empty report setup", exception.getMessage());
+            fail("빈 리포트 검증 준비", exception.getMessage());
         } finally {
-            deleteDirectoryTree(directoryPath);
+            deleteDirectoryTree(directoryPathOrNull);
         }
     }
 
@@ -139,7 +152,7 @@ public final class Main {
             return true;
         }
 
-        sFailureMessage = name + ": expected=" + expected + ", actual=" + actual;
+        sFailureMessage = name + ": 기대=" + expected + ", 실제=" + actual;
         return false;
     }
 
@@ -148,7 +161,7 @@ public final class Main {
             return true;
         }
 
-        sFailureMessage = name + ": expected=null, actual=" + actual;
+        sFailureMessage = name + ": 기대=null, 실제=" + actual;
         return false;
     }
 
@@ -157,7 +170,7 @@ public final class Main {
             return true;
         }
 
-        sFailureMessage = name + ": expected non-null value";
+        sFailureMessage = name + ": null이 아닌 값을 기대함";
         return false;
     }
 
@@ -195,17 +208,17 @@ public final class Main {
 
     private static void pass(String name) {
         ++sPassedCount;
-        System.out.println("[PASS] " + name);
+        System.out.println("[통과] " + name);
     }
 
     private static void fail(String name, String message) {
         ++sFailedCount;
-        System.out.println("[FAIL] " + name + " (" + message + ")");
+        System.out.println("[실패] " + name + " (" + message + ")");
     }
 
     private static void printSummary() {
         System.out.println();
-        System.out.println("Passed: " + sPassedCount);
-        System.out.println("Failed: " + sFailedCount);
+        System.out.println("통과: " + sPassedCount);
+        System.out.println("실패: " + sFailedCount);
     }
 }
