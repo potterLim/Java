@@ -29,8 +29,8 @@
 
 - 필수 요구 사항은 아니지만 `String`을 이용한 반복적인 수정 작업은 불필요한 연산 비용을 유발할 수 있으므로 상황에 따라 더 효율적인 구현 방법을 고려하는 것이 바람직하다.
 
-- 실습 명세에 명시되지 않은 동작은 제공된 검증용 `Main` 코드를 기준으로 추론하여 구현한다.
-    - 검증용 `Main` 코드로도 추론이 어려운 경우 명세의 규칙을 위반하지 않는 범위 내에서 합리적으로 판단하여 구현한다.
+- 실습 명세에 명시되지 않은 동작은 제공된 검증용 `Main` 클래스의 테스트 사례를 기준으로 추론하여 구현한다.
+    - 검증용 `Main` 클래스의 테스트 사례로도 추론이 어려운 경우 명세의 규칙을 위반하지 않는 범위 내에서 합리적으로 판단하여 구현한다.
 
 ## 1. 프로젝트를 준비한다
 
@@ -38,7 +38,7 @@
 2. `01-big-number-calculator` 디렉터리로 이동한다.
 3. `src/main/java` 디렉터리를 생성한다.
 4. `src/main/java` 아래에 `com.example.bignumber` 패키지를 생성한다.
-5. 제공된 검증용 [`Main.java`](./src/main/java/com/example/bignumber/Main.java)와 같은 내용의 파일을 본인의 `java-labs` 프로젝트에 아래 경로로 생성한다.
+5. 제공된 검증용 [`Main.java`](./src/main/java/com/example/bignumber/Main.java) 파일과 같은 내용의 파일을 본인의 `java-labs` 프로젝트에 아래 경로로 생성한다.
 
 ```text
 java-labs/
@@ -52,7 +52,7 @@ java-labs/
 ```java
 package com.example.bignumber;
 
-public final class BigNumberCalculator {
+public class BigNumberCalculator {
     private BigNumberCalculator() {
     }
 

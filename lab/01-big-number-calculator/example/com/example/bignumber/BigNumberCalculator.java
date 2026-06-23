@@ -1,6 +1,6 @@
 package com.example.bignumber;
 
-public final class BigNumberCalculator {
+public class BigNumberCalculator {
     private BigNumberCalculator() {
     }
 
@@ -41,23 +41,17 @@ public final class BigNumberCalculator {
             return "0";
         }
 
-        String largerAbsDigits;
-        String smallerAbsDigits;
-        boolean isNegativeResult;
-
         if (absCompareResult > 0) {
-            largerAbsDigits = leftAbsDigits;
-            smallerAbsDigits = rightAbsDigits;
-            isNegativeResult = isLeftNegative;
-        } else {
-            largerAbsDigits = rightAbsDigits;
-            smallerAbsDigits = leftAbsDigits;
-            isNegativeResult = isRightNegative;
+            String diffAbsDigits = subtractAbsDigits(leftAbsDigits, rightAbsDigits);
+            if (isLeftNegative) {
+                return "-" + diffAbsDigits;
+            }
+
+            return diffAbsDigits;
         }
 
-        String diffAbsDigits = subtractAbsDigits(largerAbsDigits, smallerAbsDigits);
-
-        if (isNegativeResult) {
+        String diffAbsDigits = subtractAbsDigits(rightAbsDigits, leftAbsDigits);
+        if (isRightNegative) {
             return "-" + diffAbsDigits;
         }
 
@@ -84,11 +78,9 @@ public final class BigNumberCalculator {
             return "-" + rightNormalized;
         }
 
-        String invertedRight;
+        String invertedRight = "-" + rightNormalized;
         if (rightNormalized.charAt(0) == '-') {
             invertedRight = extractAbsDigits(rightNormalized);
-        } else {
-            invertedRight = "-" + rightNormalized;
         }
 
         return addOrNull(leftNormalized, invertedRight);
@@ -241,7 +233,8 @@ public final class BigNumberCalculator {
             --rightIndex;
         }
 
-        while (reversedResultDigits.length() > 1 && reversedResultDigits.charAt(reversedResultDigits.length() - 1) == '0') {
+        while (reversedResultDigits.length() > 1
+                && reversedResultDigits.charAt(reversedResultDigits.length() - 1) == '0') {
             reversedResultDigits.deleteCharAt(reversedResultDigits.length() - 1);
         }
 
