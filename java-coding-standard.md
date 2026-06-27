@@ -351,7 +351,6 @@ public class OrderService {
 
 - `public` 인스턴스 멤버 변수와 변경 가능한 `public static` 멤버 변수는 금지한다.
 - 상수를 제외한 모든 멤버 변수는 원칙적으로 `private`으로 선언한다.
-- 변경되지 않는 멤버 변수는 가능한 한 `final`로 선언한다.
 - 외부 노출이 필요하더라도 일괄적으로 getter와 setter를 만들지 않는다.
 - 단순 값 변경보다 의미 있는 상태 변경을 표현하는 메서드를 우선한다.
 
@@ -410,6 +409,26 @@ public class UserProfile {
 
     public void grantMarketingConsent() {
         mHasMarketingConsent = true;
+    }
+}
+```
+
+### 5.3. 읽기 전용 값 규칙
+
+- 생성 후 값이 바뀌지 않는 멤버 변수는 `final`로 선언한다.
+- 필수 의존성은 생성자에서 받고 `final` 멤버 변수에 저장한다.
+- 객체 상태를 불필요하게 변경 가능하게 열어두지 않는다.
+
+좋은 예:
+
+```java
+public class OrderService {
+    private final IOrderRepository mOrderRepository;
+    private final IPaymentGateway mPaymentGateway;
+
+    public OrderService(IOrderRepository orderRepository, IPaymentGateway paymentGateway) {
+        mOrderRepository = orderRepository;
+        mPaymentGateway = paymentGateway;
     }
 }
 ```
@@ -753,6 +772,75 @@ public void handleOrderStatus(EOrderStatus orderStatus) {
 }
 ```
 
+### 7.3. 반복문 규칙
+
+- 컬렉션 전체를 순회할 때는 향상된 `for` 문을 우선한다.
+- 인덱스가 필요한 경우에만 전통적인 `for` 문을 사용한다.
+- 반복 중 컬렉션을 수정해야 한다면 `Iterator` 등 안전한 수정 방식을 사용한다.
+
+좋은 예:
+
+```java
+for (Order order : orders) {
+    submitOrder(order);
+}
+
+for (int index = 0; index < orders.size(); ++index) {
+    updateOrderPosition(orders.get(index), index);
+}
+```
+
+### 7.4. 람다와 스트림 사용 규칙
+
+- 람다는 짧고 지역적인 동작에만 사용한다.
+- 여러 작업을 수행하는 람다는 메서드나 명시적인 반복문으로 분리한다.
+- 부수 효과가 있는 작업은 복잡한 스트림 체인보다 명시적인 반복문을 우선한다.
+
+좋지 않은 예:
+
+```java
+orders.forEach(order -> {
+    reserveInventory(order);
+    sendOrderConfirmationEmail(order);
+});
+```
+
+좋은 예:
+
+```java
+for (Order order : orders) {
+    reserveInventory(order);
+    sendOrderConfirmationEmail(order);
+}
+```
+
+### 7.5. 리소스 해제 규칙
+
+- `AutoCloseable` 리소스는 `try-with-resources`로 수명 범위를 드러낸다.
+- 리소스를 직접 `close()`하는 방식은 지양한다.
+- 리소스를 메서드 밖으로 전달하지 않는다면 생성과 해제를 같은 범위에서 표현한다.
+
+좋지 않은 예:
+
+```java
+public String readFirstLine(String filePath) throws IOException {
+    BufferedReader reader = new BufferedReader(new FileReader(filePath));
+    String firstLine = reader.readLine();
+    reader.close();
+    return firstLine;
+}
+```
+
+좋은 예:
+
+```java
+public String readFirstLine(String filePath) throws IOException {
+    try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+        return reader.readLine();
+    }
+}
+```
+
 ## 8. `assert` 사용 규칙
 
 - `assert`는 코드가 전제로 삼는 내부 불변식과 사전 조건을 확인할 때 사용한다.
@@ -932,6 +1020,7 @@ String[] fileNames = fileLoader.getFileNames();
 - `float` 리터럴에는 반드시 `f`를 붙인다.
 - `long` 리터럴에는 반드시 대문자 `L`을 사용한다.
 - 큰 숫자는 밑줄(`_`)로 자릿수를 구분할 수 있다.
+- 매직 넘버를 직접 쓰지 말고 의미 있는 상수로 분리한다.
 - 단위가 있는 숫자는 상수 이름에 단위를 드러낸다.
 
 좋지 않은 예:

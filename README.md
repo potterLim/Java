@@ -77,7 +77,7 @@
 
 이 저장소를 통해 공부하시다가 내용, 실습, 설명 등에 대해 궁금한 점이 생기면 언제든지 [이메일로 문의](mailto:potterLim0808@gmail.com)해 주세요.
 
-> 최종 수정일: 2026. 06. 24.
+> 최종 수정일: 2026. 06. 27.
 
 [note-01]: ./notes/01-language-classification-and-design-perspectives.pdf
 [note-02]: ./notes/02-values-and-references.pdf
