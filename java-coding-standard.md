@@ -162,6 +162,7 @@ public enum EPermissionFlags {
 - 가능하면 `동사 + 목적어` 형태로 작성한다.
 - 반환값이 있는 메서드는 무엇을 반환하는지가 이름에 드러나야 한다.
 - `boolean` 반환 메서드는 `is`, `has`, `can`, `should`를 우선 사용한다.
+  - 이 표현이 부자연스러운 경우에는 상태를 나타내는 다른 3인칭 단수형 동사를 사용한다.
 - 재귀 메서드는 이름 끝에 `Recursive`를 붙인다.
 
 좋지 않은 예:
@@ -214,8 +215,10 @@ boolean flag;
 int retryCount;
 int currentPage;
 String invoiceFilePath;
+
 List<Order> pendingOrders;
 Map<OrderId, Order> ordersById;
+
 boolean isPaymentApproved;
 boolean hasDeliveryAddress;
 boolean canRetry;
@@ -503,7 +506,37 @@ public User findUserById(UserId userId);
 public List<User> searchUsersByKeyword(SearchKeyword searchKeyword);
 ```
 
-### 6.4. 강타입 매개 변수 설계 규칙
+### 6.4. 변수 가리기 금지
+
+- 안쪽 범위의 이름이 바깥쪽 범위의 이름을 가리지 않게 한다.
+- 멤버 변수와 매개 변수의 이름이 충돌하지 않게 한다.
+- IDE 또는 정적 분석 도구에서 변수 가리기를 감지할 수 있으면 경고를 활성화한다.
+
+좋지 않은 예:
+
+```java
+public class OrderService {
+    private IOrderRepository mOrderRepository;
+
+    public OrderService(IOrderRepository mOrderRepository) {
+        mOrderRepository = mOrderRepository;
+    }
+}
+```
+
+좋은 예:
+
+```java
+public class OrderService {
+    private final IOrderRepository mOrderRepository;
+
+    public OrderService(IOrderRepository orderRepository) {
+        mOrderRepository = orderRepository;
+    }
+}
+```
+
+### 6.5. 강타입 매개 변수 설계 규칙
 
 - 매개 변수는 가능한 한 강타입으로 받는다.
 - 의미를 암묵적으로 담은 `String`, `int`, `long`, `boolean`의 직접 사용을 지양한다.
@@ -654,7 +687,7 @@ public enum ESaveMode {
 public void saveOrder(Order order, ESaveMode saveMode);
 ```
 
-### 6.5. 컬렉션 자료형 사용 규칙
+### 6.6. 컬렉션 자료형 사용 규칙
 
 - 원시 타입(raw type) 컬렉션은 사용하지 않는다.
 - 컬렉션에는 요소 자료형을 명시한다.
@@ -668,7 +701,7 @@ Map<UserId, User> usersById = new HashMap<UserId, User>();
 String[] fileNames = new String[10];
 ```
 
-### 6.6. 입력 검증 규칙
+### 6.7. 입력 검증 규칙
 
 - 외부 입력은 시스템 경계에서 검증한다.
 - 검증 실패는 시스템 경계에서 즉시 처리한다.
@@ -695,7 +728,7 @@ private User findUserByEmailInternal(EmailAddress emailAddress) {
 }
 ```
 
-### 6.7. `@Override` 사용 규칙
+### 6.8. `@Override` 사용 규칙
 
 - 메서드를 오버라이딩할 때는 항상 `@Override`를 명시한다.
 - 인터페이스 메서드를 구현할 때도 `@Override`를 명시한다.
